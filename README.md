@@ -1,15 +1,17 @@
 # forum-project
 
-Step 1
+## Step 1
+```
+  cd forumapp 
+  pip install -r requirments.txt 
+  python manage.py makemigrations 
+  python manage.py migrate 
+  python manage.py runserver 
+```
 
-  cd forumapp |
-  pip install -r requirments.txt |
-  python manage.py makemigrations |
-  python manage.py migrate |
-  python manage.py runserver |
 
-
-Step 2
-  npm install |
-  npm start |
-        
+## Step 2
+```
+  npm install 
+  npm start 
+```     
