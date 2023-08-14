@@ -59,7 +59,7 @@ const voteForArticle = async (articleId) => {
 };
 
 const fetchArticles = async () => {
-  const response = await fetch(`${API_BASE_URL}articles/`);
+  const response = await fetch(`api/articles/`);
   const data = await response.json();
   return data;
 };
