@@ -9,6 +9,8 @@ import SidebarMenu from "./components/Sidebar";
 import Footer from "./components/Footer";
 import Pagination from 'react-bootstrap/Pagination';
 import SearchBar from "./components/SearchBar";
+import { logoutUser } from "./components/APIService";
+import Login from "./Login";
 
 
 
@@ -18,6 +20,7 @@ function App() {
   const [articles, setArticles] = useState([]);
   const [editArticle, setEditArticle] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
 
   
   useEffect(() => {
@@ -37,9 +40,6 @@ function App() {
       .catch(error => console.log(error))
   };
 
-  
-
-
 
   const editBtn = (article) => {
     setEditArticle(article)
@@ -57,6 +57,17 @@ function App() {
     });
     setArticles(new_articles);
   }
+
+  const handleLogout = () => {
+    setLoggedOut(true);
+    logoutUser();
+    
+  };
+
+  if (loggedOut) {
+    return <Login/>;
+  }
+
 
   const handleShowModal = () => {
     setEditArticle({ title: "", description: "" });
@@ -107,6 +118,7 @@ function App() {
 
           <Col xs={2} md={2} lg={2}>
             <div><SearchBar /></div>
+            <Button variant="danger" onClick={handleLogout}>Logout</Button>
           </Col>
 
           
