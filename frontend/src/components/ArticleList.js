@@ -14,15 +14,14 @@ function ArticleList(props) {
     setShowModal(true); 
   }
 
-  const deleteBtn = (article) => {
-    APIService.DeleteArticle(article.id)
-      .then(() => {
-       
-        const updatedArticles = props.article.filter((a) => a.id !== article.id);
-        props.setArticles(updatedArticles); 
-      })
-      .catch((error) => console.log(error));
-  };
+  // const deleteBtn = (article) => {
+  //   APIService.DeleteArticle(article.id)
+  //     .then(() => {
+  //       const updatedArticles = props.article.filter((a) => a.id !== article.id);
+  //       props.setArticles(updatedArticles); 
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   const closeModal = () => {
     setShowModal(false);

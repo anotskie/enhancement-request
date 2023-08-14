@@ -78,10 +78,20 @@ const registerUser = async (username, password) => {
 };
 
 // Function to log in a user
-const loginUser = async (username, password) => {
-  const response = await fetch(`/api/user-login/`, {
+
+function getCookie(name) {
+  const value = `; ${document.cookie};`
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+
+const loginUser = async (username, password) => { 
+  const csrftoken = getCookie('csrftoken');
+  const response = await fetch(`http://127.0.0.1:8000/api/user-login/`, {
     method: "POST",
     headers: {
+      "X-CSRFToken": csrftoken,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ username, password }),

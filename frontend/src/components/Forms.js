@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import APIService from './APIService'
+import APIService, { createArticle } from './APIService'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+
 
 
 
@@ -21,7 +22,7 @@ function Forms(props,setArticles, articles,) {
 
   const updateArticle = () => {
     const updatedArticle = { title, description, id: props.article.id };
-    APIService.UpdateArticle(props.article.id, updatedArticle)
+    updateArticle(props.article.id, updatedArticle)
       .then(resp => {
         console.log(resp);
         setIsUpdated(!isUpdated);
@@ -48,7 +49,7 @@ function Forms(props,setArticles, articles,) {
   }, [isUpdated])
 
   const insertArticle = () => {
-    APIService.InsertArticle({title, description})
+    createArticle({title, description})
     .then(resp => console.log(resp))
   }
 
