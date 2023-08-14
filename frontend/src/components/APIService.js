@@ -1,65 +1,68 @@
-export default class APIService {
-  static UpdateArticle(article_id, body) {
-    return fetch(`http://127.0.0.1:8000/api/articles/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token 5c567d10dfba02ecd6a26904732c78bb33a76808",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((resp) => {
-        if (!resp.ok) {
-          throw new Error(`Request failed with status: ${resp.status}`);
-        }
-        return resp.json();
-      })
-      .catch((error) => {
-        console.error("Error updating article:", error);
-        throw error;
-      });
-  }
+// export default class APIService {
+//   static DeleteArticle(article_id) {
+//     return fetch(`http://127.0.0.1:8000/api/articles/${article_id}/`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: "Token 5c567d10dfba02ecd6a26904732c78bb33a76808",
+//       },
+//     })
+//       .then((resp) => {
+//         if (!resp.ok) {
+//           throw new Error(`Request failed with status: ${resp.status}`);
+//         }
+//       })
+//       .catch((error) => {
+//         console.error("Error deleting article:", error);
+//         throw error;
+//       });
+//   }
+// }
+const updateArticle = async (articleId, updatedData) => {
+  const response = await fetch(`api/articles/${articleId}/update_article/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedData),
+  });
 
-  static InsertArticle(body) {
-    return fetch("http://127.0.0.1:8000/api/articles/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token 5c567d10dfba02ecd6a26904732c78bb33a76808",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((resp) => {
-        if (!resp.ok) {
-          throw new Error(`Request failed with status: ${resp.status}`);
-        }
-        return resp.json();
-      })
-      .catch((error) => {
-        console.error("Error updating article:", error);
-        throw error;
-      });
-  }
+  const data = await response.json();
+  return data;
+};
 
-  static DeleteArticle(article_id) {
-    return fetch(`http://127.0.0.1:8000/api/articles/${article_id}/`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token 5c567d10dfba02ecd6a26904732c78bb33a76808",
-      },
-    })
-      .then((resp) => {
-        if (!resp.ok) {
-          throw new Error(`Request failed with status: ${resp.status}`);
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting article:", error);
-        throw error;
-      });
-  }
-}
+const createArticle = async (title, description) => {
+  const response = await fetch(`api/articles/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
+    },
+    body: JSON.stringify({ title, description }),
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+const voteForArticle = async (articleId) => {
+  const response = await fetch(`api/articles/${articleId}/vote/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
+    },
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+const fetchArticles = async () => {
+  const response = await fetch(`${API_BASE_URL}articles/`);
+  const data = await response.json();
+  return data;
+};
 
 const registerUser = async (username, password) => {
   const response = await fetch(`/api/register/`, {
@@ -97,4 +100,4 @@ const logoutUser = () => {
   localStorage.removeItem("authToken"); // Remove the token from local storage
 };
 
-export { registerUser, loginUser, logoutUser };
+export { registerUser, loginUser, logoutUser, fetchArticles, createArticle, voteForArticle, updateArticle };
