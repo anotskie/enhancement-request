@@ -19,7 +19,7 @@
 //   }
 // }
 const updateArticle = async (articleId, updatedData) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/update_article/`, {
+  const response = await fetch(`api/articles/${articleId}/update_article/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -32,11 +32,11 @@ const updateArticle = async (articleId, updatedData) => {
 };
 
 const createArticle = async (title, description) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/articles/`, {
+  const response = await fetch(`api/articles/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
+      "Authorization": `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
     },
     body: JSON.stringify({ title, description }),
   });
@@ -46,11 +46,11 @@ const createArticle = async (title, description) => {
 };
 
 const voteForArticle = async (articleId) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/vote/`, {
+  const response = await fetch(`api/articles/${articleId}/vote/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
+      "Authorization": `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
     },
   });
 
@@ -59,13 +59,13 @@ const voteForArticle = async (articleId) => {
 };
 
 const fetchArticles = async () => {
-  const response = await fetch(`http://127.0.0.1:8000/api/articles/`);
+  const response = await fetch(`api/articles/`);
   const data = await response.json();
   return data;
 };
 
 const registerUser = async (username, password) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/register/`, {
+  const response = await fetch(`/api/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -79,7 +79,7 @@ const registerUser = async (username, password) => {
 
 // Function to log in a user
 const loginUser = async (username, password) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/user-login/`, {
+  const response = await fetch(`/api/user-login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -100,12 +100,4 @@ const logoutUser = () => {
   localStorage.removeItem("authToken"); // Remove the token from local storage
 };
 
-export default {
-  registerUser,
-  loginUser,
-  logoutUser,
-  fetchArticles,
-  createArticle,
-  voteForArticle,
-  updateArticle,
-};
+export { registerUser, loginUser, logoutUser, fetchArticles, createArticle, voteForArticle, updateArticle };
