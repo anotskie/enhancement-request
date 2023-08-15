@@ -28,6 +28,13 @@ const ArticleCardComponent = ({ article, onVote }) => {
     // onVote(article.id);
   };
 
+  const handleForumIconClick = () => {
+    const url = `/Comments/?articleId=${article.id}`;
+    // Change the URL to trigge r the redirection
+
+    window.location.href = url;
+  };
+
   return (
     <Row className="article-card">
       <Col sm={2}>
@@ -82,7 +89,10 @@ const ArticleCardComponent = ({ article, onVote }) => {
             <div className="comment-info d-flex align-items-center">
               <div className="comment-count mr-1">
                 <BadgeMUI badgeContent={commentCount} color="primary">
-                  <ForumOutlinedIcon />
+                  <ForumOutlinedIcon
+                    onClick={handleForumIconClick}
+                    style={{ cursor: "pointer" }}
+                  />
                 </BadgeMUI>
               </div>
             </div>
