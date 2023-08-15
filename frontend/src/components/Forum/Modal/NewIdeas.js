@@ -17,15 +17,15 @@ function ModalComponent({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       const username = localStorage.getItem("username"); // Get the stored username
-  
+
       const newArticle = await createArticle(title, description, username); // Pass username
-  
+
       // Update the articles state to include the new article
       setArticles([...articles, newArticle]);
-  
+
       // Close the modal
       handleClose();
     } catch (error) {
@@ -37,7 +37,7 @@ function ModalComponent({
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>
-          {editArticle ? "Edit Article" : "Insert New Article"}
+          {editArticle ? "Edit Article" : "Insert New Idea"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
