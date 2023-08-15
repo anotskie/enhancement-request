@@ -43,8 +43,16 @@ class ArticleViewSet(viewsets.ModelViewSet):
             article.vote += 1
             article.voted_by.add(user)
             article.save()
+            return Response({'votes': article.vote})
+        else:
+            return Response({'detail': 'You have already voted for this article.'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
-        return Response({'votes': article.vote})
+    # Modify the list method to include vote counts
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class UserViewSet(viewsets.ModelViewSet):

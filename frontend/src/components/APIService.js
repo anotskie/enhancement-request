@@ -32,11 +32,11 @@ const updateArticle = async (articleId, updatedData) => {
 };
 
 const createArticle = async (title, description) => {
-  const response = await fetch(`api/articles/`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/articles/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
+      "Authorization": `Token ${localStorage.getItem("authToken")}`,
     },
     body: JSON.stringify({ title, description }),
   });
@@ -46,11 +46,11 @@ const createArticle = async (title, description) => {
 };
 
 const voteForArticle = async (articleId) => {
-  const response = await fetch(`api/articles/${articleId}/vote/`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/vote/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("authToken")}`, // Include the token in the headers
+      "Authorization": `Token ${localStorage.getItem("authToken")}`,
     },
   });
 
@@ -59,18 +59,18 @@ const voteForArticle = async (articleId) => {
 };
 
 const fetchArticles = async () => {
-  const response = await fetch(`api/articles/`);
+  const response = await fetch(`http://127.0.0.1:8000/api/articles/`);
   const data = await response.json();
   return data;
 };
 
-const registerUser = async (username, password) => {
-  const response = await fetch(`/api/register/`, {
+const registerUser = async (username, password, email) => {
+  const response = await fetch(`http://127.0.0.1:8000/api/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ username, password, email }),
   });
 
   const data = await response.json();

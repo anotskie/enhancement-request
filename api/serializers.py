@@ -4,9 +4,10 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
 
 class ArticleSerializer(serializers.ModelSerializer):
+    votes = serializers.IntegerField(source='vote')  # Include the vote field
     class Meta:
         model = Article
-        fields = ['id', 'title', 'description']
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
