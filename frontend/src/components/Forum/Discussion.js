@@ -13,6 +13,9 @@ import {
   Navbar,
 } from "react-bootstrap";
 import ModalComponent from "./Modal/NewIdeas";
+import { fetchArticles, voteForArticle } from "../APIService";
+import NavbarComponent from "../Navbar/Navigation";
+import ArticleCardComponent from "./Card/ArticleCard";
 
 const Forums = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,25 +36,34 @@ const Forums = () => {
     setEditArticle(null);
   };
 
+  const handleVote = async (articleId) => {
+    try {
+      const updatedArticle = await voteForArticle(articleId);
+      const updatedArticles = articles.map((article) =>
+        article.id === articleId ? updatedArticle : article
+      );
+      setArticles(updatedArticles);
+    } catch (error) {
+      console.error("Error voting for article:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAndSetArticles = async () => {
+      try {
+        const fetchedArticles = await fetchArticles();
+        setArticles(fetchedArticles);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+      }
+    };
+
+    fetchAndSetArticles();
+  }, []);
+
   return (
     <div>
-      <Navbar className="bg-body-tertiary">
-        <Container>
-          <Row className="align-items-center">
-            <Col xs="auto" style={{ marginBottom: "2px", display: "flex" }}>
-              <h1>
-                <b>Chadix.</b>
-              </h1>
-            </Col>
-            <Col
-              className="ml-auto"
-              style={{ marginTop: "30px", display: "flex" }}
-            >
-              <h3>Chadix ideas</h3>
-            </Col>
-          </Row>
-        </Container>
-      </Navbar>
+      <NavbarComponent />
       <Container className="mt-3">
         <Row>
           <Col md={2}>
@@ -75,14 +87,17 @@ const Forums = () => {
               <Tab eventKey="trending" title="Trending"></Tab>
               <Tab eventKey="popular" title="Popular"></Tab>
             </Tabs>
-          </Col>
-          <Col md={{ span: 2, offset: 8 }} style={{ marginTop: "-55px" }}>
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
+            <Row>
+              <Col md={{ span: 12 }}>
+                {articles.map((article) => (
+                  <ArticleCardComponent
+                    key={article.id}
+                    article={article}
+                    onVote={() => handleVote(article.id)}
+                  />
+                ))}
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Container>

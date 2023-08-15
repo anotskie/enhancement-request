@@ -45,3 +45,54 @@
   border-radius: 4px;
   cursor: pointer;
 } */
+
+.article-card {
+  margin: 15px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.article-card:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.article-content {
+  padding: 15px;
+}
+
+.comments-section {
+  margin-top: 15px;
+}
+
+.custom-card {
+  border: none;
+}
+
+.vote-button {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 50px;
+}
+
+.vote-button-inner {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.vote-icon {
+  margin-right: 5px;
+}
+
+.voted .vote-icon {
+  color: white;
+}
+
+.vote-count {
+  margin-left: 5px;
+  font-size: 14px;
+}
