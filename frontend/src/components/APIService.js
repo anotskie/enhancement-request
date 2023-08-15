@@ -18,6 +18,8 @@
 //       });
 //   }
 // }
+
+
 const updateArticle = async (articleId, updatedData) => {
   const response = await fetch(`api/articles/${articleId}/update_article/`, {
     method: "PUT",

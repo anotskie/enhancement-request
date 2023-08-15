@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Row, Col, Card, Button, Badge } from "react-bootstrap";
+import { Row, Col, Card, Button, Badge, Modal } from "react-bootstrap";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import BadgeMUI from "@mui/material/Badge";
 import "../../../App.css";
+import ModalComponent from "../Modal/NewIdeas";
+import ModalComponentEdit from "../Modal/EditIdeas";
 
 const ArticleCardComponent = ({ article, onVote }) => {
   const [votes, setVotes] = useState(article.votes || 0);
   const [voted, setVoted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [editArticle, setEditArticle] = useState(null);
   const commentCount = 1000;
   const status = "NeedsReview";
 
@@ -26,6 +30,20 @@ const ArticleCardComponent = ({ article, onVote }) => {
     setVotes(updatedVotes);
     setVoted(!voted);
     // onVote(article.id);
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+    const handleCloseModal = () => {
+    setShowModal(false);
+    setEditArticle(null);
+  };
+
+   const handleEditClick = () => {
+    setEditArticle(article);
+    setShowModal(true);
   };
 
   return (
@@ -50,18 +68,34 @@ const ArticleCardComponent = ({ article, onVote }) => {
         </div>
       </Col>
       <Col sm={10}>
+
+        
         <Card className="article-content" style={{ border: "none" }}>
-          <Card.Body>
-            <div>
-              <Card.Title>{article.title}</Card.Title>
-              <Card.Text>
-                {article.description && article.description.length > 250
-                  ? article.description.substring(0, 250) + "..."
-                  : article.description}
-              </Card.Text>
+        <Button size="sm" variant="outline-primary" onClick={() => handleEditClick(article)}>Edit</Button>
+            <ModalComponentEdit
+              showEdit={showModal}
+              handleCloseEdit={handleCloseModal}
+              editArticle={editArticle} 
+              
+            
+            />
+            <Card.Body>
+              <div>
+                
+                <Card.Title>{article.title}</Card.Title>
+                <Card.Text>
+                  {article.description && article.description.length > 250
+                    ? article.description.substring(0, 250) + "..."
+                    : article.description}
+                </Card.Text>
+              
             </div>
           </Card.Body>
         </Card>
+
+
+       
+
         <div className="comments-section d-flex justify-content-between">
           <div className="d-flex align-items-center">
             <b>Created by: </b>

@@ -21,6 +21,8 @@ const Forums = () => {
   const [showModal, setShowModal] = useState(false);
   const [editArticle, setEditArticle] = useState(null);
   const [articles, setArticles] = useState([]);
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
+
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -54,9 +56,24 @@ const Forums = () => {
     };
 
     fetchAndSetArticles();
+
+    //new
+    const storedUserId = localStorage.getItem("userId");
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+
   }, []);
 
-  const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    // Store userId in Local Storage whenever it changes
+    if (userId) {
+      localStorage.setItem("userId", userId);
+    }
+  }, [userId]);
+
+  //new
+  
   console.log("User ID:", userId);
 
   return (
@@ -104,6 +121,7 @@ const Forums = () => {
                 </Col>
               </Row>
             </Col>
+            <Col> <Button variant="danger">Danger</Button></Col>
           </Row>
         </Container>
       </div>
