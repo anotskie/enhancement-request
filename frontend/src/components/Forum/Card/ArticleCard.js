@@ -54,7 +54,11 @@ const ArticleCardComponent = ({ article, onVote }) => {
           <Card.Body>
             <div>
               <Card.Title>{article.title}</Card.Title>
-              <Card.Text>{article.description}</Card.Text>
+              <Card.Text>
+                {article.description.length > 250
+                  ? article.description.substring(0, 250) + "..."
+                  : article.description}
+              </Card.Text>
             </div>
           </Card.Body>
         </Card>

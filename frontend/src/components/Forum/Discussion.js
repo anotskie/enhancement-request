@@ -47,7 +47,7 @@ const Forums = () => {
     const fetchAndSetArticles = async () => {
       try {
         const fetchedArticles = await fetchArticles();
-        setArticles(fetchedArticles.reverse()); // Reverse the order of fetched articles
+        setArticles(fetchedArticles.reverse());
       } catch (error) {
         console.error("Error fetching articles:", error);
       }
@@ -88,15 +88,13 @@ const Forums = () => {
               </Tabs>
               <Row>
                 <Col md={{ span: 12 }}>
-                  {articles
-                    .sort((a, b) => b.timestamp - a.timestamp) // Sort articles in descending order based on timestamp
-                    .map((article) => (
-                      <ArticleCardComponent
-                        key={article.id}
-                        article={article}
-                        onVote={() => handleVote(article.id)}
-                      />
-                    ))}
+                  {articles.map((article) => (
+                    <ArticleCardComponent
+                      key={article.id}
+                      article={article}
+                      onVote={() => handleVote(article.id)}
+                    />
+                  ))}
                 </Col>
               </Row>
             </Col>
