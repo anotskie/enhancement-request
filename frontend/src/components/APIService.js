@@ -31,7 +31,7 @@ const updateArticle = async (articleId, updatedData) => {
   return data;
 };
 
-const createArticle = async (title, description) => {
+const createArticles = async (title, description) => {
   const response = await fetch(`http://127.0.0.1:8000/api/articles/`, {
     method: "POST",
     headers: {
@@ -48,37 +48,55 @@ const createArticle = async (title, description) => {
   return data;
 };
 
-const voteForArticle = async (articleId) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/vote/`, {
-    method: "POST",
+// const voteForArticle = async (articleId) => {
+//   const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/vote/`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Authorization": `Token ${localStorage.getItem("authToken")}`,
+//     },
+//   });
+
+//   const data = await response.json();
+//   return data;
+// };
+
+// const fetchArticles = async () => {
+//   const response = await fetch(`http://127.0.0.1:8000/api/articles/`);
+//   const data = await response.json();
+//   return data;
+// };
+
+export async function registerUser(username, password) {
+  const response = await fetch('http://127.0.0.1:8000/api/register/', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("authToken")}`,
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ username, password }),
   });
 
-  const data = await response.json();
-  return data;
-};
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    const errorData = await response.json();
+    throw new Error(errorData.detail);
+  }
+}
 
-const fetchArticles = async () => {
-  const response = await fetch(`http://127.0.0.1:8000/api/articles/`);
-  const data = await response.json();
-  return data;
-};
+// const registerUser = async (username, password, email) => {
+//   const response = await fetch(`http://127.0.0.1:8000/api/register/`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ username, password, email }),
+//   });
 
-const registerUser = async (username, password, email) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/register/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ username, password, email }),
-  });
-
-  const data = await response.json();
-  return data;
-};
+//   const data = await response.json();
+//   return data;
+// };
 
 // Function to log in a user
 
@@ -88,31 +106,48 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-
-const loginUser = async (username, password) => {
-  const csrftoken = getCookie('csrftoken');
-  const response = await fetch(`http://127.0.0.1:8000/api/user-login/`, {
-    method: "POST",
+export async function loginUser(username, password) {
+  const response = await fetch('http://127.0.0.1:8000/api/login/', {
+    method: 'POST',
     headers: {
-      "X-CSRFToken": csrftoken,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ username, password }),
   });
 
-  const data = await response.json();
-
   if (response.ok) {
-    localStorage.setItem("authToken", data.token);
-    localStorage.setItem("user_id", data.user_id);
-    localStorage.setItem("username", data.username); // Store the username in local storage
+    const data = await response.json();
+    return data;
+  } else {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
   }
+}
 
-  const userId = localStorage.getItem("user_id");
-  console.log("User ID:", userId);
+// const loginUser = async (username, password) => {
+//   const csrftoken = getCookie('csrftoken');
+//   const response = await fetch(`http://127.0.0.1:8000/api/user-login/`, {
+//     method: "POST",
+//     headers: {
+//       "X-CSRFToken": csrftoken,
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ username, password }),
+//   });
 
-  return data;
-};
+//   const data = await response.json();
+
+//   if (response.ok) {
+//     localStorage.setItem("authToken", data.token);
+//     localStorage.setItem("user_id", data.user_id);
+//     localStorage.setItem("username", data.username); // Store the username in local storage
+//   }
+
+//   const userId = localStorage.getItem("user_id");
+//   console.log("User ID:", userId);
+
+//   return data;
+// };
 
 const logoutUser = () => {
   localStorage.removeItem("authToken"); // Remove the token from local storage
@@ -132,4 +167,55 @@ const createComment = async (articleId, text) => {
   return data;
 };
 
-export { registerUser, loginUser, logoutUser, fetchArticles, createArticle, voteForArticle, updateArticle, createComment };
+export async function createArticle(title, description, token) {
+  const response = await fetch('http://127.0.0.1:8000/api/articles/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify({ title, description }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    const errorData = await response.json();
+    throw new Error(errorData.detail);
+  }
+}
+
+export async function getArticleList() {
+  const response = await fetch('http://127.0.0.1:8000/api/articles/');
+  const data = await response.json();
+  return data;
+}
+
+export async function voteForArticle(articleId, token) {
+  const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/vote/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
+  }
+}
+
+export async function getUserDetails(userId) {
+  const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}/`);
+  const data = await response.json();
+  console.log("User Details Response:", data); // Debug: Check the API response
+  return data.username; // Assuming username is in the response
+}
+
+
+export { logoutUser, updateArticle, createComment,createArticles };

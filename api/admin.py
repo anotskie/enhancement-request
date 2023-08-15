@@ -6,8 +6,6 @@ from .models import Article
 #admin.site.register(Article)
 
 @admin.register(Article)
-
-class ArticleModel(admin.ModelAdmin):
-    list_display = ('title', 'description', 'vote', 'created_by')
-    list_filter = ('title', 'description')
-    
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'vote', 'author')
+    list_filter = ('title', 'description', 'vote', 'author')

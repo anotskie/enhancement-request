@@ -5,6 +5,7 @@ import { createArticle } from "../../APIService";
 function ModalComponent({
   show,
   handleClose,
+  handleCreateArticle,
   editArticle,
   setArticles,
   articles,
@@ -19,19 +20,12 @@ function ModalComponent({
     event.preventDefault();
 
     try {
-      const username = localStorage.getItem("username"); // Get the stored username
-
-      const newArticle = await createArticle(title, description, username); // Pass username
-
-      // Update the articles state to include the new article
-      setArticles([...articles, newArticle]);
-
-      // Close the modal
-      handleClose();
+      await handleCreateArticle(title, description); {/* Call the handler */}
     } catch (error) {
       setError("An error occurred while creating the article.");
     }
   };
+  
 
   return (
     <Modal show={show} onHide={handleClose}>

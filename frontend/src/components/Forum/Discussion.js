@@ -12,15 +12,26 @@ import {
   FormControl,
   Navbar,
 } from "react-bootstrap";
-import ModalComponent from "./Modal/NewIdeas";
-import { fetchArticles, voteForArticle } from "../APIService";
+import ModalComponent from "./Modal/create";
+
 import NavbarComponent from "../Navbar/Navigation";
-import ArticleCardComponent from "./Card/ArticleCard";
+import ArticleCardComponent from "./Card/ArticleCard"; // Make sure to adjust the import path
+import { getArticleList, voteForArticle, createArticle } from "../APIService"; // Make sure to adjust the import path
 
 const Forums = () => {
   const [showModal, setShowModal] = useState(false);
   const [editArticle, setEditArticle] = useState(null);
   const [articles, setArticles] = useState([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -46,7 +57,7 @@ const Forums = () => {
   useEffect(() => {
     const fetchAndSetArticles = async () => {
       try {
-        const fetchedArticles = await fetchArticles();
+        const fetchedArticles = await getArticleList();
         setArticles(fetchedArticles.reverse());
       } catch (error) {
         console.error("Error fetching articles:", error);
@@ -66,21 +77,8 @@ const Forums = () => {
         <Container className="mt-3">
           <Row>
             <Col md={3}>
-              <Button
-                size="sm"
-                variant="outline-primary"
-                onClick={handleShowModal}
-              >
-                Add a new idea
-              </Button>
-              <ModalComponent
-                show={showModal}
-                handleClose={handleCloseModal}
-                editArticle={editArticle}
-                setEditArticle={setEditArticle}
-                setArticles={setArticles}
-                articles={articles}
-              />
+              <Button onClick={openModal}>Create Article</Button>
+              <ModalComponent isOpen={isModalOpen} onClose={closeModal} />
             </Col>
             <Col md={{ span: 8, offset: 0 }}>
               <Tabs
