@@ -8,7 +8,7 @@ class Article(models.Model):
     description = models.TextField()
     vote = models.IntegerField(default=0)
     voted_by = models.ManyToManyField(User, related_name='articles_voted')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title

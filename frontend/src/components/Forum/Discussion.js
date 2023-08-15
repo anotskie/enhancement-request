@@ -60,7 +60,8 @@ const Forums = () => {
 
     fetchAndSetArticles();
   }, []);
-
+  const userId = localStorage.getItem("userId");
+  console.log("User ID:", userId);
   return (
     <div>
       <NavbarComponent />

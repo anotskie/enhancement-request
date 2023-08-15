@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { createArticle } from "../../APIService";
 
@@ -13,19 +13,24 @@ function ModalComponent({
   const [description, setDescription] = useState(
     editArticle ? editArticle.description : ""
   );
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
-      const response = await createArticle(title, description);
-      console.log("Article created:", response); // Log the response for testing
-      // You can handle the response and update your UI accordingly
-      // For example, you can fetch the updated list of articles after creating
-      // and update your articles state.
+      const userId = localStorage.getItem("userId");
+      console.log("User ID:", userId);
+  
+      const newArticle = await createArticle(title, description, userId);
+  
+      // Update the articles state to include the new article
+      setArticles([...articles, newArticle]);
+  
+      // Close the modal
+      handleClose();
     } catch (error) {
-      console.error("Error creating article:", error);
-      // Handle error here, show a message to the user, etc.
+      setError("An error occurred while creating the article.");
     }
   };
 
@@ -37,6 +42,7 @@ function ModalComponent({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {error && <p className="text-danger">{error}</p>}
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
             <Form.Label>Title</Form.Label>
