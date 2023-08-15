@@ -4,10 +4,13 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
 
 class ArticleSerializer(serializers.ModelSerializer):
+    created_by = serializers.ReadOnlyField(source='created_by.username')
+    
     class Meta:
         model = Article
         fields = '__all__'
-        read_only_fields = ('vote', 'voted_by')
+        read_only_fields = ('vote', 'voted_by', 'created_by')
+
 
 
 class UserSerializer(serializers.ModelSerializer):

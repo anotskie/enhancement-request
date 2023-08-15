@@ -19,10 +19,9 @@ function ModalComponent({
     event.preventDefault();
   
     try {
-      const userId = localStorage.getItem("userId");
-      console.log("User ID:", userId);
+      const username = localStorage.getItem("username"); // Get the stored username
   
-      const newArticle = await createArticle(title, description, userId);
+      const newArticle = await createArticle(title, description, username); // Pass username
   
       // Update the articles state to include the new article
       setArticles([...articles, newArticle]);

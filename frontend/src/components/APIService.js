@@ -38,7 +38,10 @@ const createArticle = async (title, description) => {
       "Content-Type": "application/json",
       "Authorization": `Token ${localStorage.getItem("authToken")}`,
     },
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({
+      title,
+      description,
+    }),
   });
 
   const data = await response.json();
@@ -86,7 +89,7 @@ function getCookie(name) {
 }
 
 
-const loginUser = async (username, password) => { 
+const loginUser = async (username, password) => {
   const csrftoken = getCookie('csrftoken');
   const response = await fetch(`http://127.0.0.1:8000/api/user-login/`, {
     method: "POST",
@@ -100,8 +103,13 @@ const loginUser = async (username, password) => {
   const data = await response.json();
 
   if (response.ok) {
-    localStorage.setItem("authToken", data.token); // Store the token in local storage
+    localStorage.setItem("authToken", data.token);
+    localStorage.setItem("user_id", data.user_id);
+    localStorage.setItem("username", data.username); // Store the username in local storage
   }
+
+  const userId = localStorage.getItem("user_id");
+  console.log("User ID:", userId);
 
   return data;
 };

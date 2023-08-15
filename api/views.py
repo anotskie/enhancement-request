@@ -55,12 +55,13 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     
     def create(self, request, *args, **kwargs):
-        request.data['created_by'] = request.user.id
+        request.data['created_by'] = request.user.username
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -93,9 +94,14 @@ def user_login(request):
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)  # Get user's token
-            return Response({'message': 'Logged in successfully', 'token': token.key})
+            return Response({
+                'message': 'Logged in successfully',
+                'token': token.key,
+                'user_id': user.id,
+                'username': user.username  # Include the username
+            })
         else:
-            return Response('Invalid username or password', status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'message': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
         
 class CommentCreateView(generics.CreateAPIView):
     serializer_class = CommentSerializer
