@@ -25,7 +25,7 @@ const ArticleCardComponent = ({ article, onVote }) => {
     const updatedVotes = voted ? votes - 1 : votes + 1;
     setVotes(updatedVotes);
     setVoted(!voted);
-    onVote(article.id);
+    // onVote(article.id);
   };
 
   return (
@@ -62,24 +62,31 @@ const ArticleCardComponent = ({ article, onVote }) => {
             </div>
           </Card.Body>
         </Card>
-        <div className="comments-section d-flex justify-content-end">
-          <div
-            className="status mr-3"
-            style={{
-              backgroundColor: statusColor || "#999",
-              borderRadius: "5px",
-              color: "#fff",
-            }}
-          >
-            {displayStatus}
+        <div className="comments-section d-flex justify-content-between">
+          <div className="d-flex align-items-center">
+            <b>Created by: </b>
+            {article.created_by}
           </div>
+          <div className="d-flex align-items-center">
+            <div
+              className="status mr-3"
+              style={{
+                backgroundColor: statusColor || "#999",
+                borderRadius: "5px",
+                color: "#fff",
+              }}
+            >
+              {displayStatus}
+            </div>
 
-          <div className="ml-3">
-            <BadgeMUI badgeContent={commentCount} color="primary">
-              <ForumOutlinedIcon />
-            </BadgeMUI>
+            <div className="comment-info d-flex align-items-center">
+              <div className="comment-count mr-1">
+                <BadgeMUI badgeContent={commentCount} color="primary">
+                  <ForumOutlinedIcon />
+                </BadgeMUI>
+              </div>
+            </div>
           </div>
-          {/* Render comments here */}
         </div>
       </Col>
     </Row>
