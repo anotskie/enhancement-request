@@ -18,14 +18,9 @@ import NavbarComponent from "../Navbar/Navigation";
 import ArticleCardComponent from "./Card/ArticleCard";
 
 const Forums = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editArticle, setEditArticle] = useState(null);
   const [articles, setArticles] = useState([]);
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -52,7 +47,7 @@ const Forums = () => {
     const fetchAndSetArticles = async () => {
       try {
         const fetchedArticles = await fetchArticles();
-        setArticles(fetchedArticles);
+        setArticles(fetchedArticles.reverse()); // Reverse the order of fetched articles
       } catch (error) {
         console.error("Error fetching articles:", error);
       }
@@ -60,48 +55,54 @@ const Forums = () => {
 
     fetchAndSetArticles();
   }, []);
+
   const userId = localStorage.getItem("userId");
   console.log("User ID:", userId);
+
   return (
     <div>
       <NavbarComponent />
-      <Container className="mt-3">
-        <Row>
-          <Col md={2}>
-            <Button onClick={handleShowModal}>Add a new idea</Button>
-            <ModalComponent
-              show={showModal}
-              handleClose={handleCloseModal}
-              editArticle={editArticle}
-              setEditArticle={setEditArticle}
-              setArticles={setArticles}
-              articles={articles}
-            />
-          </Col>
-          <Col md={{ span: 8, offset: 0 }}>
-            <Tabs
-              defaultActiveKey="trending"
-              id="uncontrolled-tab-example"
-              className="mb-3"
-            >
-              <Tab eventKey="recent" title="Recent"></Tab>
-              <Tab eventKey="trending" title="Trending"></Tab>
-              <Tab eventKey="popular" title="Popular"></Tab>
-            </Tabs>
-            <Row>
-              <Col md={{ span: 12 }}>
-                {articles.map((article) => (
-                  <ArticleCardComponent
-                    key={article.id}
-                    article={article}
-                    onVote={() => handleVote(article.id)}
-                  />
-                ))}
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+      <div className="d-flex justify-content-center">
+        <Container className="mt-3">
+          <Row>
+            <Col md={3}>
+              <Button onClick={handleShowModal}>Add a new idea</Button>
+              <ModalComponent
+                show={showModal}
+                handleClose={handleCloseModal}
+                editArticle={editArticle}
+                setEditArticle={setEditArticle}
+                setArticles={setArticles}
+                articles={articles}
+              />
+            </Col>
+            <Col md={{ span: 8, offset: 0 }}>
+              <Tabs
+                defaultActiveKey="trending"
+                id="uncontrolled-tab-example"
+                className="mb-3"
+              >
+                <Tab eventKey="recent" title="Recent"></Tab>
+                <Tab eventKey="trending" title="Trending"></Tab>
+                <Tab eventKey="popular" title="Popular"></Tab>
+              </Tabs>
+              <Row>
+                <Col md={{ span: 12 }}>
+                  {articles
+                    .sort((a, b) => b.timestamp - a.timestamp) // Sort articles in descending order based on timestamp
+                    .map((article) => (
+                      <ArticleCardComponent
+                        key={article.id}
+                        article={article}
+                        onVote={() => handleVote(article.id)}
+                      />
+                    ))}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </div>
   );
 };

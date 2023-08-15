@@ -3,7 +3,7 @@ import { Navbar, Container, Row, Col } from "react-bootstrap";
 
 const NavbarComponent = () => {
   return (
-    <Navbar className="bg-body-tertiary">
+    <Navbar className="navbar navbar-expand-lg bg-body-tertiary">
       <Container>
         <Row className="align-items-center">
           <Col xs="auto" style={{ marginBottom: "2px", display: "flex" }}>

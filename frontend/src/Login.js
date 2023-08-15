@@ -46,12 +46,12 @@ function Login() {
       ) : (
         <Card
           className="p-3"
-          style={{ backgroundColor: "#87CEEB", width: "30rem" }}
+          style={{ backgroundColor: "#FFF", width: "30rem" }}
         >
-          <Form>
+          <Form onSubmit={handleLogin}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>
-                <EmailIcon style={{ marginRight: "10" }} />
+                <EmailIcon style={{ marginRight: "10px" }} />
                 Email address
               </Form.Label>
               <Form.Control
@@ -64,7 +64,7 @@ function Login() {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>
-                <PasswordIcon style={{ marginRight: "10" }} />
+                <PasswordIcon style={{ marginRight: "10px" }} />
                 Password
               </Form.Label>
               <Form.Control
@@ -78,14 +78,19 @@ function Login() {
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Check me out" />
             </Form.Group>
+            <div className="d-flex justify-content-end">
+              <Button variant="outline-primary" onClick={togglePage}>
+                {showRegister ? "Back to Login" : "Register"}
+              </Button>
 
-            <Button variant="primary" type="submit" onClick={handleLogin}>
-              Login
-            </Button>
-
-            <Button variant="link" onClick={togglePage}>
-              {showRegister ? "Back to Login" : "Register"}
-            </Button>
+              <Button
+                variant="primary"
+                type="submit"
+                style={{ marginLeft: "10px" }}
+              >
+                Login
+              </Button>
+            </div>
           </Form>
         </Card>
       )}

@@ -6,8 +6,8 @@ import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import BadgeMUI from "@mui/material/Badge";
 import "../../../App.css";
 
-const ArticleCardComponent = ({ article }) => {
-  const [votes, setVotes] = useState(article.votes);
+const ArticleCardComponent = ({ article, onVote }) => {
+  const [votes, setVotes] = useState(article.votes || 0);
   const [voted, setVoted] = useState(false);
   const commentCount = 1000;
   const status = "NeedsReview";
@@ -22,12 +22,10 @@ const ArticleCardComponent = ({ article }) => {
   const statusColor = statusColors[status];
 
   const handleVote = () => {
-    if (voted) {
-      setVotes(votes - 1);
-    } else {
-      setVotes(votes + 1);
-    }
+    const updatedVotes = voted ? votes - 1 : votes + 1;
+    setVotes(updatedVotes);
     setVoted(!voted);
+    onVote(article.id);
   };
 
   return (
@@ -37,7 +35,7 @@ const ArticleCardComponent = ({ article }) => {
           <Button
             variant={voted ? "secondary" : "outline-success"}
             size="sm"
-            onClick={handleVote}
+            onClick={() => handleVote(article.id)}
             className="vote-button-inner"
           >
             {voted ? (
