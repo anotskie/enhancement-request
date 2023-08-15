@@ -110,4 +110,18 @@ const logoutUser = () => {
   localStorage.removeItem("authToken"); // Remove the token from local storage
 };
 
-export { registerUser, loginUser, logoutUser, fetchArticles, createArticle, voteForArticle, updateArticle };
+const createComment = async (articleId, text) => {
+  const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/comments/create/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${localStorage.getItem("authToken")}`,
+    },
+    body: JSON.stringify({ text }),
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+export { registerUser, loginUser, logoutUser, fetchArticles, createArticle, voteForArticle, updateArticle, createComment };

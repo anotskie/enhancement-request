@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from .models import Article
-from .serializers import ArticleSerializer, UserSerializer
+from .models import Article, Comment
+from .serializers import ArticleSerializer, UserSerializer, CommentSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework. decorators import api_view
@@ -96,3 +96,12 @@ def user_login(request):
             return Response({'message': 'Logged in successfully', 'token': token.key})
         else:
             return Response('Invalid username or password', status=status.HTTP_401_UNAUTHORIZED)
+        
+class CommentCreateView(generics.CreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        article_id = self.kwargs.get('article_id')
+        article = Article.objects.get(id=article_id)
+        serializer.save(user=self.request.user, article=article)
