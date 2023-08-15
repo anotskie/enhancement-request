@@ -9,7 +9,17 @@ import "../../../App.css";
 const ArticleCardComponent = ({ article }) => {
   const [votes, setVotes] = useState(article.votes);
   const [voted, setVoted] = useState(false);
-  const commentCount = 5;
+  const commentCount = 1000;
+  const status = "NeedsReview";
+
+  const statusColors = {
+    Active: "#6ec5b8",
+    Inactive: "#d8b9c3",
+    NeedsReview: "#a9c3d3",
+  };
+
+  const displayStatus = status.replace(/([a-z])([A-Z])/g, "$1 $2");
+  const statusColor = statusColors[status];
 
   const handleVote = () => {
     if (voted) {
@@ -25,7 +35,7 @@ const ArticleCardComponent = ({ article }) => {
       <Col sm={2}>
         <div className={`vote-button ${voted ? "voted" : ""}`}>
           <Button
-            variant={voted ? "danger" : "outline-success"}
+            variant={voted ? "secondary" : "outline-success"}
             size="sm"
             onClick={handleVote}
             className="vote-button-inner"
@@ -48,15 +58,27 @@ const ArticleCardComponent = ({ article }) => {
               <Card.Title>{article.title}</Card.Title>
               <Card.Text>{article.description}</Card.Text>
             </div>
-            <div className="comments-section d-flex justify-content-end">
-              <BadgeMUI badgeContent={commentCount} color="primary">
-                <ForumOutlinedIcon fontSize="small" />
-              </BadgeMUI>
-
-              {/* Render comments here */}
-            </div>
           </Card.Body>
         </Card>
+        <div className="comments-section d-flex justify-content-end">
+          <div
+            className="status mr-3"
+            style={{
+              backgroundColor: statusColor || "#999",
+              borderRadius: "5px",
+              color: "#fff",
+            }}
+          >
+            {displayStatus}
+          </div>
+
+          <div className="ml-3">
+            <BadgeMUI badgeContent={commentCount} color="primary">
+              <ForumOutlinedIcon />
+            </BadgeMUI>
+          </div>
+          {/* Render comments here */}
+        </div>
       </Col>
     </Row>
   );

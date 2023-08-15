@@ -66,6 +66,7 @@
 
 .comments-section {
   margin-top: 15px;
+  align-items: center;
 }
 
 .custom-card {
@@ -95,4 +96,9 @@
 .vote-count {
   margin-left: 5px;
   font-size: 14px;
+}
+
+.status {
+  margin-right: 20px;
+  padding: 3px;
 }
