@@ -44,6 +44,11 @@ const ArticleCardComponent = ({ article, onVote }) => {
    const handleEditClick = () => {
     setEditArticle(article);
     setShowModal(true);
+  const handleForumIconClick = () => {
+    const url = `/Comments/?articleId=${article.id}`;
+    // Change the URL to trigge r the redirection
+
+    window.location.href = url;
   };
 
   return (
@@ -116,7 +121,10 @@ const ArticleCardComponent = ({ article, onVote }) => {
             <div className="comment-info d-flex align-items-center">
               <div className="comment-count mr-1">
                 <BadgeMUI badgeContent={commentCount} color="primary">
-                  <ForumOutlinedIcon />
+                  <ForumOutlinedIcon
+                    onClick={handleForumIconClick}
+                    style={{ cursor: "pointer" }}
+                  />
                 </BadgeMUI>
               </div>
             </div>
