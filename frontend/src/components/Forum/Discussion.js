@@ -66,7 +66,13 @@ const Forums = () => {
         <Container className="mt-3">
           <Row>
             <Col md={3}>
-              <Button onClick={handleShowModal}>Add a new idea</Button>
+              <Button
+                size="sm"
+                variant="outline-primary"
+                onClick={handleShowModal}
+              >
+                Add a new idea
+              </Button>
               <ModalComponent
                 show={showModal}
                 handleClose={handleCloseModal}
