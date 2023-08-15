@@ -42,27 +42,6 @@ const ArticleCardComponent = ({ article }) => {
   const displayStatus = "Active"; // Replace with your actual status
   const commentCount = 1000;
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-    const handleCloseModal = () => {
-    setShowModal(false);
-    setEditArticle(null);
-  };
-
-  const handleEditClick = () => {
-    setEditArticle(article);
-    setShowModal(true);
-  }; // Added closing bracket here
-  
-  const handleForumIconClick = () => {
-    const url = `/Comments/?articleId=${article.id}`;
-    // Change the URL to trigger the redirection
-  
-    window.location.href = url;
-  };
-
   return (
     <Row className="article-card">
       <Col sm={2}>
@@ -85,34 +64,18 @@ const ArticleCardComponent = ({ article }) => {
         </div>
       </Col>
       <Col sm={10}>
-
-        
         <Card className="article-content" style={{ border: "none" }}>
-        <Button size="sm" variant="outline-primary" onClick={() => handleEditClick(article)}>Edit</Button>
-            <ModalComponentEdit
-              showEdit={showModal}
-              handleCloseEdit={handleCloseModal}
-              editArticle={editArticle} 
-              
-            
-            />
-            <Card.Body>
-              <div>
-                
-                <Card.Title>{article.title}</Card.Title>
-                <Card.Text>
-                  {article.description && article.description.length > 250
-                    ? article.description.substring(0, 250) + "..."
-                    : article.description}
-                </Card.Text>
-              
+          <Card.Body>
+            <div>
+              <Card.Title>{article.title}</Card.Title>
+              <Card.Text>
+                {article.description && article.description.length > 250
+                  ? article.description.substring(0, 250) + "..."
+                  : article.description}
+              </Card.Text>
             </div>
           </Card.Body>
         </Card>
-
-
-       
-
         <div className="comments-section d-flex justify-content-between">
           <div className="d-flex align-items-center">
             <b>Created by:</b>
@@ -133,10 +96,7 @@ const ArticleCardComponent = ({ article }) => {
             <div className="comment-info d-flex align-items-center">
               <div className="comment-count mr-1">
                 <BadgeMUI badgeContent={commentCount} color="primary">
-                  <ForumOutlinedIcon
-                    onClick={handleForumIconClick}
-                    style={{ cursor: "pointer" }}
-                  />
+                  <ForumOutlinedIcon />
                 </BadgeMUI>
               </div>
             </div>
@@ -146,7 +106,5 @@ const ArticleCardComponent = ({ article }) => {
     </Row>
   );
 };
-
-
 
 export default ArticleCardComponent;
