@@ -41,13 +41,15 @@ const ArticleCardComponent = ({ article, onVote }) => {
     setEditArticle(null);
   };
 
-   const handleEditClick = () => {
+  const handleEditClick = () => {
     setEditArticle(article);
     setShowModal(true);
+  }; // Added closing bracket here
+  
   const handleForumIconClick = () => {
     const url = `/Comments/?articleId=${article.id}`;
-    // Change the URL to trigge r the redirection
-
+    // Change the URL to trigger the redirection
+  
     window.location.href = url;
   };
 
@@ -134,5 +136,7 @@ const ArticleCardComponent = ({ article, onVote }) => {
     </Row>
   );
 };
+
+
 
 export default ArticleCardComponent;
